@@ -17,10 +17,16 @@ public class Board {
     }
 
     public Piece piece(final int row, final int column) {
-        return pieces[row][column];
+        return this.pieces[row][column];
     }
 
     public Piece piece(final Position position) {
-        return pieces[position.getRow()][position.getColumn()];
+        return this.pieces[position.getRow()][position.getColumn()];
     }
+
+    public void placePiece(final Piece piece, final Position position) {
+        this.pieces[position.getRow()][position.getColumn()] = piece;
+        piece.position = position;
+    }
+
 }

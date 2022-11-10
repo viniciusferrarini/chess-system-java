@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Piece {
 
-    protected final Position position;
+    protected Position position;
 
     @Getter(AccessLevel.PROTECTED)
     private final Board board;
