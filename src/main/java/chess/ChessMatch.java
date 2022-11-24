@@ -36,9 +36,9 @@ public class ChessMatch {
     }
 
     private Piece makeMove(final Position source, final Position target) {
-        final var p = board.removePiece(source);
+        final var removedPiece = board.removePiece(source);
         final var capturedPiece = board.removePiece(target);
-        board.placePiece(p, target);
+        board.placePiece(removedPiece, target);
         return capturedPiece;
     }
 
