@@ -1,6 +1,8 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
+import boardgame.Position;
 import chess.pieces.Rook;
 
 import static chess.Color.BLACK;
@@ -23,6 +25,27 @@ public class ChessMatch {
             }
         }
         return mat;
+    }
+
+    public ChessPiece performChessMove(final ChessPosition sourcePosition, final ChessPosition targetPosition) {
+        final var source = sourcePosition.toPosition();
+        final var target = targetPosition.toPosition();
+        validateSourcePosition(source);
+        final var capturedPiece = makeMove(source, target);
+        return (ChessPiece) capturedPiece;
+    }
+
+    private Piece makeMove(final Position source, final Position target) {
+        final var p = board.removePiece(source);
+        final var capturedPiece = board.removePiece(target);
+        board.placePiece(p, target);
+        return capturedPiece;
+    }
+
+    private void validateSourcePosition(final Position source) {
+        if (!board.thereIsAPiece(source)) {
+            throw new ChessException("There is no piece on source position");
+        }
     }
 
     private void placeNewPiece(final char column, final int row, final ChessPiece piece) {
