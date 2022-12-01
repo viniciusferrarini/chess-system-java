@@ -77,4 +77,5 @@ public class King extends ChessPiece {
         ChessPiece piece = (ChessPiece) getBoard().piece(position);
         return piece == null || piece.getColor() != getColor();
     }
+
 }
