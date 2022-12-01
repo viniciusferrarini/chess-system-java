@@ -16,7 +16,7 @@ public record ChessPosition(@Getter char column, @Getter int row) {
     }
 
     protected static ChessPosition fromPosition(final Position position) {
-        return new ChessPosition((char) ('a' - position.getColumn()), 8 - position.getRow());
+        return new ChessPosition((char) ('a' + position.getColumn()), 8 - position.getRow());
     }
 
     @Override
