@@ -4,11 +4,17 @@ import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 import static java.lang.System.out;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UI {
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -46,7 +52,7 @@ public class UI {
         }
     }
 
-    public static void printMatch(final ChessMatch chessMatch, ArrayList<ChessPiece> captured) {
+    public static void printMatch(final ChessMatch chessMatch, List<ChessPiece> captured) {
         printBoard(chessMatch.getPieces());
         out.println();
         printCapturedPieces(captured);
