@@ -40,7 +40,7 @@ public class Program {
 
                 if (chessMatch.getPromoted() != null) {
                     out.println("Enter piece for promotion (B/N/R/Q): ");
-                    final var type = sc.nextLine();
+                    final var type = sc.nextLine().toUpperCase();
                     chessMatch.replacePromotedPiece(type);
                 }
             } catch (ChessException | InputMismatchException e) {
