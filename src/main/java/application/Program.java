@@ -41,6 +41,8 @@ public class Program {
                 out.println(e.getMessage());
                 sc.nextLine();
             }
+            UI.clearScreen();
+            UI.printMatch(chessMatch, captured);
         }
     }
 }

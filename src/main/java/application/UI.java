@@ -37,8 +37,8 @@ public class UI {
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        out.print("\033[H\033[2J");
+        out.flush();
     }
 
     public static ChessPosition readChessPosition(Scanner sc) {
@@ -57,13 +57,14 @@ public class UI {
         out.println();
         printCapturedPieces(captured);
         out.println();
-        out.println("Turn: " + chessMatch.getTurn());
+        out.println("Turn : " + chessMatch.getTurn());
         if (!chessMatch.isCheckMate()) {
-            out.println("Waiting player " + chessMatch.getCurrentPlayer());
+            out.println("Waiting player: " + chessMatch.getCurrentPlayer());
             if (chessMatch.isCheck()) {
                 out.println("CHECK!");
             }
-        } else {
+        }
+        else {
             out.println("CHECKMATE!");
             out.println("Winner: " + chessMatch.getCurrentPlayer());
         }
@@ -77,7 +78,7 @@ public class UI {
             }
             out.println();
         }
-        out.println("  a b c d e f j h");
+        out.println("  a b c d e f g h");
     }
 
     public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {

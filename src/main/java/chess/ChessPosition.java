@@ -11,11 +11,11 @@ public record ChessPosition(@Getter char column, @Getter int row) {
         }
     }
 
-    protected Position toPosition() {
+    Position toPosition() {
         return new Position(8 - this.row, this.column - 'a');
     }
 
-    protected static ChessPosition fromPosition(final Position position) {
+    static ChessPosition fromPosition(final Position position) {
         return new ChessPosition((char) ('a' + position.getColumn()), 8 - position.getRow());
     }
 

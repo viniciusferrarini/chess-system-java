@@ -3,10 +3,7 @@ package chess;
 import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
-import chess.pieces.Bishop;
-import chess.pieces.King;
-import chess.pieces.Pawn;
-import chess.pieces.Rook;
+import chess.pieces.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -77,10 +74,11 @@ public class ChessMatch {
     }
 
     private Piece makeMove(final Position source, final Position target) {
-        final var removedPiece = (ChessPiece) board.removePiece(source);
-        removedPiece.increaseMoveCount();
+        final var p = (ChessPiece)board.removePiece(source);
+        p.increaseMoveCount();
         final var capturedPiece = board.removePiece(target);
-        board.placePiece(removedPiece, target);
+        board.placePiece(p, target);
+
         if (capturedPiece != null) {
             piecesOnTheBoard.remove(capturedPiece);
             capturedPieces.add(capturedPiece);
@@ -89,7 +87,7 @@ public class ChessMatch {
     }
 
     private void undoMove(final Position source, final Position target, final Piece capturedPiece) {
-        final var removedPiece = (ChessPiece) board.removePiece(source);
+        final var removedPiece = (ChessPiece) board.removePiece(target);
         removedPiece.decreaseMoveCount();
         board.placePiece(removedPiece, source);
         if (capturedPiece != null) {
@@ -127,16 +125,19 @@ public class ChessMatch {
     }
 
     private ChessPiece king(final Color color) {
-        return (ChessPiece) piecesOnTheBoard.stream()
-                .filter(piece -> ((ChessPiece) piece).getColor().equals(color) && piece instanceof King)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("There is no " + color + " king on the board"));
+        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).toList();
+        for (Piece p : list) {
+            if (p instanceof King) {
+                return (ChessPiece)p;
+            }
+        }
+        throw new IllegalStateException("There is no " + color + " king on the board");
     }
 
     private boolean testCheck(final Color color) {
         final var kingPosition = king(color).getChessPosition().toPosition();
         final var opponentPieces = piecesOnTheBoard.stream()
-                .filter(piece -> ((ChessPiece) piece).getColor().equals(opponent(color)))
+                .filter(piece -> ((ChessPiece) piece).getColor() == opponent(color))
                 .toList();
         for (Piece p : opponentPieces) {
             final var mat = p.possibleMoves();
@@ -149,7 +150,7 @@ public class ChessMatch {
 
     private boolean testCheckMate(final Color color) {
         if (!testCheck(color)) return false;
-        final var list = piecesOnTheBoard.stream().filter(piece -> ((ChessPiece) piece).getColor().equals(color)).toList();
+        final var list = piecesOnTheBoard.stream().filter(piece -> ((ChessPiece) piece).getColor() == color).toList();
         for (final Piece piece : list) {
             final var mat = piece.possibleMoves();
             for (int i = 0; i < board.getRows(); i++) {
@@ -176,9 +177,11 @@ public class ChessMatch {
 
     private void initialSetup() {
         placeNewPiece('a', 1, new Rook(board, WHITE));
+        placeNewPiece('b', 1, new Knight(board, WHITE));
         placeNewPiece('c', 1, new Bishop(board, WHITE));
         placeNewPiece('e', 1, new King(board, WHITE));
         placeNewPiece('f', 1, new Bishop(board, WHITE));
+        placeNewPiece('d', 5, new Knight(board, WHITE));
         placeNewPiece('h', 1, new Rook(board, WHITE));
         placeNewPiece('a', 2, new Pawn(board, WHITE));
         placeNewPiece('b', 2, new Pawn(board, WHITE));
@@ -190,9 +193,11 @@ public class ChessMatch {
         placeNewPiece('h', 2, new Pawn(board, WHITE));
 
         placeNewPiece('a', 8, new Rook(board, BLACK));
+        placeNewPiece('b', 8, new Knight(board, BLACK));
         placeNewPiece('c', 8, new Bishop(board, BLACK));
         placeNewPiece('e', 8, new King(board, BLACK));
         placeNewPiece('f', 8, new Bishop(board, BLACK));
+        placeNewPiece('d', 8, new Knight(board, BLACK));
         placeNewPiece('h', 8, new Rook(board, BLACK));
         placeNewPiece('a', 7, new Pawn(board, BLACK));
         placeNewPiece('b', 7, new Pawn(board, BLACK));
