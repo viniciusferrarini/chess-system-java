@@ -37,6 +37,12 @@ public class Program {
                 if (capturedPiece != null) {
                     captured.add(capturedPiece);
                 }
+
+                if (chessMatch.getPromoted() != null) {
+                    out.println("Enter piece for promotion (B/N/R/Q): ");
+                    final var type = sc.nextLine();
+                    chessMatch.replacePromotedPiece(type);
+                }
             } catch (ChessException | InputMismatchException e) {
                 out.println(e.getMessage());
                 sc.nextLine();
